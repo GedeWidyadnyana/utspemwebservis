@@ -29,10 +29,10 @@
                         <a class="nav-link" href="#">Features</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">(Masukkan Nama)</a>
+                        <a class="nav-link" href="#">I Gede Widyadnyana</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">(Masukkan NIM)</a>
+                        <a class="nav-link disabled" aria-disabled="true">24010110176</a>
                     </li>
                 </ul>
             </div>
@@ -55,7 +55,7 @@
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
             </ul>
             <p class="text-center text-body-secondary">
-                &copy; 2025 Dibuat Sejujurjurnya Oleh Team (Masukkan Nama ketua) dan (Masukkan Nama Anggota) Tanpa Mencotek dari Tim Lain
+                &copy; 2025 Dibuat Sejujurjurnya Oleh Team I Gede Widyadnyana dan (Masukkan Nama Anggota) Tanpa Mencotek dari Tim Lain
             </p>
         </footer>
     </div>

@@ -7,9 +7,9 @@
         $anggotaList = $anggota ?? [
             [
                 'id' => 1,
-                'nama' => 'rizki eka prasodjo',
-                'deskripsi' => '12.11.5866 merupakan master dari uts ini dengan tugas membuat front-end dan mengirimkannya ke grup',
-                'foto' => 'images/foto-1.svg',
+                'nama' => 'I Gede Widyadnyana',
+                'deskripsi' => '24010110176 merupakan anggota tim dengan tugas mengerjakan front-end pada UTS ini',
+                'foto' => 'images/gede-widyadnyana.jpg',
             ],
             [
                 'id' => 2,
@@ -52,7 +52,7 @@
                     <div class="card h-100 shadow-sm">
                         <div class="ratio ratio-1x1 overflow-hidden rounded-top">
                             <img src="{{ asset($item['foto']) }}" class="w-100 h-100 object-fit-cover"
-                                alt="{{ $item['nama'] }}">
+                                style="object-position: top;" alt="{{ $item['nama'] }}">
                         </div>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title fw-bold mb-1">{{ $item['nama'] }}</h5>
