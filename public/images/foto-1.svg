@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#f8f9fa"/>
+  <circle cx="200" cy="145" r="65" fill="#6c757d"/>
+  <path d="M90 360c0-65 49-110 110-110s110 45 110 110H90z" fill="#495057"/>
+  <text x="200" y="385" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" fill="#6c757d">Foto Anggota 1</text>
+</svg>
+
