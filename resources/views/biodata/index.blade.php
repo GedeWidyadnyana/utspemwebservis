@@ -3,29 +3,24 @@
 @section('title', 'UTS Pem Web')
 
 @section('konten')
-    @php
-        $anggotaList = $anggota ?? [
-            [
-                'id' => 1,
-                'nama' => 'I Gede Widyadnyana',
-                'deskripsi' => '24010110176 merupakan anggota tim dengan tugas mengerjakan front-end pada UTS ini',
-                'foto' => 'images/gede-widyadnyana.jpg',
-            ],
-            [
-                'id' => 2,
-                'nama' => 'andi agus salim',
-                'deskripsi' => 'dengan NIM 12.11.6018 merupakan pegawai dan mempunyai tugas mengerjakan back-end pada UTS ini',
-                'foto' => 'images/foto-2.svg',
-            ],
-        ];
-    @endphp
-
     <div class="container">
-        {{-- Alert sukses (tampil default untuk preview front-end; dapat dibatasi @if(session('success')) saat integrasi back-end) --}}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success', 'Biodata berhasil diperbarui.') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         {{-- Grid 3 Kolom Card --}}
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -47,25 +42,25 @@
             </div>
 
             {{-- Card Biodata Anggota --}}
-            @foreach ($anggotaList as $index => $item)
+            @foreach ($anggota as $item)
                 <div class="col">
                     <div class="card h-100 shadow-sm">
                         <div class="ratio ratio-1x1 overflow-hidden rounded-top">
-                            <img src="{{ asset($item['foto']) }}" class="w-100 h-100 object-fit-cover"
-                                style="object-position: top;" alt="{{ $item['nama'] }}">
+                            <img src="{{ asset($item->foto) }}" class="w-100 h-100 object-fit-cover"
+                                style="object-position: top;" alt="{{ $item->nama }}">
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold mb-1">{{ $item['nama'] }}</h5>
+                            <h5 class="card-title fw-bold mb-1">{{ $item->nama }}</h5>
                             <p class="card-text text-body-secondary small mb-4">
-                                {{ $item['deskripsi'] }}
+                                {{ $item->deskripsi }}
                             </p>
                             <div class="mt-auto border-top pt-3 d-flex gap-2">
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#editModal-{{ $index }}">
+                                    data-bs-target="#editModal-{{ $item->id }}">
                                     Edit
                                 </button>
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#hapusModal-{{ $index }}">
+                                    data-bs-target="#hapusModal-{{ $item->id }}">
                                     Hapus
                                 </button>
                             </div>
@@ -74,33 +69,35 @@
                 </div>
 
                 {{-- Modal Edit Biodata --}}
-                <div class="modal fade" id="editModal-{{ $index }}" tabindex="-1"
-                    aria-labelledby="editModalLabel-{{ $index }}" aria-hidden="true">
+                <div class="modal fade" id="editModal-{{ $item->id }}" tabindex="-1"
+                    aria-labelledby="editModalLabel-{{ $item->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="#" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('biodata.update', $item) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel-{{ $index }}">Edit Biodata</h5>
+                                    <h5 class="modal-title" id="editModalLabel-{{ $item->id }}">Edit Biodata</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="editNama-{{ $index }}" class="form-label">Nama</label>
-                                        <input type="text" class="form-control" id="editNama-{{ $index }}"
-                                            name="nama" value="{{ $item['nama'] }}" required>
+                                        <label for="editNama-{{ $item->id }}" class="form-label">Nama</label>
+                                        <input type="text" class="form-control" id="editNama-{{ $item->id }}"
+                                            name="nama" value="{{ $item->nama }}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="editDeskripsi-{{ $index }}" class="form-label">Deskripsi</label>
-                                        <textarea class="form-control" id="editDeskripsi-{{ $index }}"
-                                            name="deskripsi" rows="3" required>{{ $item['deskripsi'] }}</textarea>
+                                        <label for="editDeskripsi-{{ $item->id }}" class="form-label">Deskripsi</label>
+                                        <textarea class="form-control" id="editDeskripsi-{{ $item->id }}"
+                                            name="deskripsi" rows="3" required>{{ $item->deskripsi }}</textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="editFoto-{{ $index }}" class="form-label">Foto</label>
-                                        <input type="file" class="form-control" id="editFoto-{{ $index }}"
+                                        <label for="editFoto-{{ $item->id }}" class="form-label">Foto</label>
+                                        <input type="file" class="form-control" id="editFoto-{{ $item->id }}"
                                             name="foto" accept="image/*">
+                                        <div class="form-text">Kosongkan jika tidak ingin mengganti foto.</div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -114,20 +111,20 @@
                 </div>
 
                 {{-- Modal Hapus Biodata --}}
-                <div class="modal fade" id="hapusModal-{{ $index }}" tabindex="-1"
-                    aria-labelledby="hapusModalLabel-{{ $index }}" aria-hidden="true">
+                <div class="modal fade" id="hapusModal-{{ $item->id }}" tabindex="-1"
+                    aria-labelledby="hapusModalLabel-{{ $item->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="#" method="POST">
+                            <form action="{{ route('biodata.destroy', $item) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="hapusModalLabel-{{ $index }}">Konfirmasi Hapus</h5>
+                                    <h5 class="modal-title" id="hapusModalLabel-{{ $item->id }}">Konfirmasi Hapus</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    Apakah Anda yakin ingin menghapus biodata <strong>{{ $item['nama'] }}</strong>?
+                                    Apakah Anda yakin ingin menghapus biodata <strong>{{ $item->nama }}</strong>?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm"
@@ -146,7 +143,7 @@
     <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="#" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('biodata.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="tambahModalLabel">Tambah Biodata</h5>
@@ -156,12 +153,12 @@
                         <div class="mb-3">
                             <label for="tambahNama" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="tambahNama" name="nama"
-                                placeholder="Masukkan nama" required>
+                                value="{{ old('nama') }}" placeholder="Masukkan nama" required>
                         </div>
                         <div class="mb-3">
                             <label for="tambahDeskripsi" class="form-label">Deskripsi</label>
                             <textarea class="form-control" id="tambahDeskripsi" name="deskripsi" rows="3"
-                                placeholder="Masukkan NIM dan deskripsi tugas" required></textarea>
+                                placeholder="Masukkan NIM dan deskripsi tugas" required>{{ old('deskripsi') }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="tambahFoto" class="form-label">Foto</label>
@@ -178,4 +175,3 @@
         </div>
     </div>
 @endsection
-
